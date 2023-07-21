@@ -99,8 +99,8 @@ class BlogController extends Controller
     public function update(Request $request, int $id)
     {
         $validator = Validator::make($request->all(),[
-            'title' => 'required|string|max:191',
-            'body' => 'required|string|max:191',
+            'title' => 'nullable|string|max:191',
+            'body' => 'nullable|string|max:191',
         ]);
 
         if($validator->fails()){
@@ -113,11 +113,21 @@ class BlogController extends Controller
             $blog = Blog::find($id);
 
             if($blog) {
+                if($request->title && $request->body){
 
-                $blog->update([
-                    'title' => $request->title,
-                    'body' => $request->body,
-                ]);
+                    $blog->update([
+                        'title' => $request->title,
+                        'body' => $request->body,
+                    ]);
+                } else if ($request->title){
+                    $blog->update([
+                        'title' => $request->title,
+                    ]);
+                } else if ($request->body){
+                    $blog->update([
+                        'body' => $request->body,
+                    ]);
+                }
 
                 return response()->json([
                     'status' => 200,

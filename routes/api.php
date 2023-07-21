@@ -1,8 +1,10 @@
 <?php
 
-use App\Http\Controllers\Api\BlogController;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\BlogController;
+use App\Http\Controllers\Api\RegisteredUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +27,6 @@ Route::get('blogs/{id}', [BlogController::class, "show"]);
 // Route::get('blogs/{id}', [BlogController::class, "edit"]);
 Route::put('blogs/{id}', [BlogController::class, "update"]);
 Route::delete('blogs/{id}', [BlogController::class, "destroy"]);
+
+Route::get('signup', [RegisteredUserController::class, 'index']);
+Route::post('signup', [RegisteredUserController::class, 'store']);
