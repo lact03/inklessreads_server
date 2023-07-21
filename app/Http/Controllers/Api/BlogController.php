@@ -38,27 +38,118 @@ class BlogController extends Controller
             return response()->json([
                 'status' => 422,
                 'errors' => $validator->messages()
-            ]);
+            ], 422);
         } else {
 
-            $student = Blog::create([
+            $blog = Blog::create([
                 'title' => $request->title,
                 'body' => $request->body,
             ]);
 
-            if($student) {
+            if($blog) {
                 return response()->json([
                     'status' => 200,
                     'message' => "Blog Created Successfully"
-                ]);
+                ], 200);
             } else {
                 return response()->json([
                     'status' => 500,
                     'message' => "Something went wrong"
-                ]);
+                ], 500);
             }
 
             
         }
     }
+
+    public function show($id)
+    {
+        $blog = Blog::find($id);
+
+        if($blog) {
+            return response()->json([
+                'status' => 200,
+                'blog' => $blog
+            ],200);
+        } else {
+            return response()->json([
+                'status' => 500,
+                'message' => "Something went wrong"
+            ], 500);
+        }
+    }
+
+    public function edit($id)
+    {
+        $blog = Blog::find($id);
+
+        if($blog) {
+            return response()->json([
+                'status' => 200,
+                'blog' => $blog
+            ],200);
+        } else {
+            return response()->json([
+                'status' => 500,
+                'message' => "Something went wrong"
+            ], 500);
+        }
+    }
+
+    public function update(Request $request, int $id)
+    {
+        $validator = Validator::make($request->all(),[
+            'title' => 'required|string|max:191',
+            'body' => 'required|string|max:191',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'status' => 422,
+                'errors' => $validator->messages()
+            ], 422);
+        } else {
+
+            $blog = Blog::find($id);
+
+            if($blog) {
+
+                $blog->update([
+                    'title' => $request->title,
+                    'body' => $request->body,
+                ]);
+
+                return response()->json([
+                    'status' => 200,
+                    'message' => "Blog Updated Successfully"
+                ],200);
+
+            } else {
+                return response()->json([
+                    'status' => 404,
+                    'message' => "Something went wrong"
+                ], 404);
+            }  
+        }
+    }
+
+    public function destroy($id)
+    {
+        $blog = Blog::find($id);
+
+        if($blog) {
+            $blog->delete();
+
+            return response()->json([
+                'status' => 200,
+                'message' => "Blog successfully deleted"
+            ],200);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => "Something went wrong"
+            ], 404);
+        }
+    }
+
 }
