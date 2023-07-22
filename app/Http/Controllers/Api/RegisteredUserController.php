@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Models\RegisteredUser;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class RegisteredUserController extends Controller
 {
@@ -29,21 +30,21 @@ class RegisteredUserController extends Controller
 
     public function store(Request $request)
     {
-        // $validator = Validator::make($request->all(),[
-        //     'first_name' => 'required|string|max:191',
-        //     'last_name' => 'required|string|max:191',
-        //     'age' => 'required|integer|max:191',
-        //     'email' => 'required|string|max:191',
-        //     'password' => 'required|string|max:191',
-        //     'mobile_number' => 'required|integer|max:191',
-        // ]);
+        $validator = Validator::make($request->all(),[
+            'first_name' => 'required|string|max:191',
+            'last_name' => 'required|string|max:191',
+            'age' => 'required|integer|max:191',
+            'email' => 'required|string|max:191',
+            'password' => 'required|string|max:191',
+            'mobile_number' => 'required|integer',
+        ]);
 
-        // if($validator->fails()){
-        //     return response()->json([
-        //         'status' => 422,
-        //         'errors' => $validator->messages()
-        //     ], 422);
-        // } else {
+        if($validator->fails()){
+            return response()->json([
+                'status' => 422,
+                'errors' => $validator->messages()
+            ], 422);
+        } else {
 
             $registeredUser = RegisteredUser::create([
                 'first_name' => $request->first_name,
@@ -67,6 +68,6 @@ class RegisteredUserController extends Controller
             }
 
             
-        // }
+        }
     }
 }

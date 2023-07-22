@@ -29,17 +29,17 @@ class BlogController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(),[
-            'title' => 'required|string|max:191',
-            'body' => 'required|string|max:191',
-        ]);
+        // $validator = Validator::make($request->all(),[
+        //     'title' => 'required|string|max:191',
+        //     'body' => 'required|string|max:191',
+        // ]);
 
-        if($validator->fails()){
-            return response()->json([
-                'status' => 422,
-                'errors' => $validator->messages()
-            ], 422);
-        } else {
+        // if($validator->fails()){
+        //     return response()->json([
+        //         'status' => 422,
+        //         'errors' => $validator->messages()
+        //     ], 422);
+        // } else {
 
             $blog = Blog::create([
                 'title' => $request->title,
@@ -59,7 +59,7 @@ class BlogController extends Controller
             }
 
             
-        }
+        // }
     }
 
     public function show($id)
@@ -98,21 +98,23 @@ class BlogController extends Controller
 
     public function update(Request $request, int $id)
     {
-        $validator = Validator::make($request->all(),[
-            'title' => 'nullable|string|max:191',
-            'body' => 'nullable|string|max:191',
-        ]);
+        
+        // $validator = Validator::make($request->all(),[
+        //     'title' => 'nullable|string|max:191',
+        //     'body' => 'nullable|string|max:191',
+        // ]);
 
-        if($validator->fails()){
-            return response()->json([
-                'status' => 422,
-                'errors' => $validator->messages()
-            ], 422);
-        } else {
+        // if($validator->fails()){
+        //     return response()->json([
+        //         'status' => 422,
+        //         'errors' => $validator->messages()
+        //     ], 422);
+        // } else {
 
             $blog = Blog::find($id);
 
             if($blog) {
+
                 if($request->title && $request->body){
 
                     $blog->update([
@@ -140,7 +142,7 @@ class BlogController extends Controller
                     'message' => "Something went wrong"
                 ], 404);
             }  
-        }
+        // }
     }
 
     public function destroy($id)
