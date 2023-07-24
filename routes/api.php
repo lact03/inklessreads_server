@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\BlogController;
-use App\Http\Controllers\Api\RegisteredUserController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,5 +28,21 @@ Route::get('blogs/{id}', [BlogController::class, "show"]);
 Route::put('blogs/{id}', [BlogController::class, "update"]);
 Route::delete('blogs/{id}', [BlogController::class, "destroy"]);
 
-Route::get('signup', [RegisteredUserController::class, 'index']);
-Route::post('signup', [RegisteredUserController::class, 'store']);
+// Route::resource('products', ProductController::class);
+
+// Public routes
+Route::post('register',[AuthController::class, 'register']);
+Route::post('login',[AuthController::class, 'login']);
+
+Route::get('products',[ProductController::class, 'index']);
+Route::get('products/{id}',[ProductController::class, 'show']);
+Route::get('products/search/{name}',[ProductController::class, 'search']);
+
+// Protected routes
+Route::group(['middleware'=>'auth:sanctum'], function () {
+    Route::post('products',[ProductController::class, 'store']);
+    Route::put('products/{id}',[ProductController::class, 'update']);
+    Route::delete('products/{id}',[ProductController::class, 'destroy']);
+    Route::post('logout', [AuthController::class, 'logout']);
+});
+
