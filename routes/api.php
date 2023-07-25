@@ -21,9 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('blogs', [BlogController::class, "index"]);
 
-Route::get('blogs/{id}', [BlogController::class, "show"]);
 // Route::get('blogs/{id}', [BlogController::class, "edit"]);
 
 
@@ -32,19 +30,21 @@ Route::get('blogs/{id}', [BlogController::class, "show"]);
 // Public routes
 Route::post('register',[AuthController::class, 'register']);
 Route::post('login',[AuthController::class, 'login']);
+Route::get('blogs', [BlogController::class, "index"]);
+Route::get('blogs/{id}', [BlogController::class, "show"]);
 
-Route::get('products',[ProductController::class, 'index']);
-Route::get('products/{id}',[ProductController::class, 'show']);
-Route::get('products/search/{name}',[ProductController::class, 'search']);
+// Route::get('products',[ProductController::class, 'index']);
+// Route::get('products/{id}',[ProductController::class, 'show']);
+// Route::get('products/search/{name}',[ProductController::class, 'search']);
 
 // Protected routes
 Route::group(['middleware'=>'auth:sanctum'], function () {
-    Route::post('products',[ProductController::class, 'store']);
-    Route::put('products/{id}',[ProductController::class, 'update']);
-    Route::delete('products/{id}',[ProductController::class, 'destroy']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::put('blogs/{id}', [BlogController::class, "update"]);
-Route::delete('blogs/{id}', [BlogController::class, "destroy"]);
-Route::post('blogs', [BlogController::class, "store"]);
+    Route::delete('blogs/{id}', [BlogController::class, "destroy"]);
+    Route::post('blogs', [BlogController::class, "store"]);
+    // Route::post('products',[ProductController::class, 'store']);
+    // Route::put('products/{id}',[ProductController::class, 'update']);
+    // Route::delete('products/{id}',[ProductController::class, 'destroy']);
 });
 
