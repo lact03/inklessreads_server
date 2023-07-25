@@ -22,11 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('blogs', [BlogController::class, "index"]);
-Route::post('blogs', [BlogController::class, "store"]);
+
 Route::get('blogs/{id}', [BlogController::class, "show"]);
 // Route::get('blogs/{id}', [BlogController::class, "edit"]);
-Route::put('blogs/{id}', [BlogController::class, "update"]);
-Route::delete('blogs/{id}', [BlogController::class, "destroy"]);
+
 
 // Route::resource('products', ProductController::class);
 
@@ -44,5 +43,8 @@ Route::group(['middleware'=>'auth:sanctum'], function () {
     Route::put('products/{id}',[ProductController::class, 'update']);
     Route::delete('products/{id}',[ProductController::class, 'destroy']);
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::put('blogs/{id}', [BlogController::class, "update"]);
+Route::delete('blogs/{id}', [BlogController::class, "destroy"]);
+Route::post('blogs', [BlogController::class, "store"]);
 });
 
